@@ -1,0 +1,19 @@
+{
+  "name": "iloveoil",
+  "version": "1.0.0",
+  "description": "FLS project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SLEEPwalker131313/iLoveOil.git"
+  },
+  "author": "SLEEPwalker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SLEEPwalker131313/iLoveOil/issues"
+  },
+  "homepage": "https://github.com/SLEEPwalker131313/iLoveOil#readme"
+}
