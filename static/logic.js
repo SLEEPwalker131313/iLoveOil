@@ -1,27 +1,21 @@
 var iLoveOil = {
-    // init: function() {
-    //     $(function() {
-    //       console.log('init');
-    //       // var socket = io.connect(window.location.hostname + ':5000', {resource: 'api'});
-    //       // var socket = io.connect(window.location.hostname, {port: 5000});
-    //         $('#test_btn').click(function() {
-    //           console.log('clicked');
-    //           var socket = io.connect(window.location.hostname, {port: 8080});
-    //           console.log(socket);
-    //           socket.emit('test', function(){
-    //             console.log(222);
-    //           });
-    //         });
-    //         //
-    //         // socket.on('connect', function () {
-    //         //     $('#status').html('connected');
-    //         // });
-    //       })
-    // }
-};
+    init: function() {
+        $(function() {
+          console.log('init');
+          // var socket = io.connect(window.location.hostname + ':5000', {resource: 'api'});
+            $('#test_btn').click(function() {
+              var socket = io.connect('/');
 
-var socket = io.connect('/');
-socket.on('news', function (data) {
-  console.log(data);
-  socket.emit('my other event', { my: 'data' });
-});
+              console.log('route');
+              // socket.emit ('route', [ [32.963, 32.320],[59.437, 59.744] ]);
+              socket.emit ('route', [ [59.963, 30.320],[59.437, 24.744] ]);
+              socket.on ('messageSuccess', function (data) {
+                console.log(1111);
+                console.log(data);
+
+              });
+
+            });
+          })
+    }
+};

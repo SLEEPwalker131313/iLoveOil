@@ -1,0 +1,6 @@
+body{
+  background-color: white;
+}
+.ymaps-2-1-69-controls__control_toolbar{
+  display: none; !important
+}

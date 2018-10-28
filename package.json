@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SLEEPwalker131313/iLoveOil/issues"
   },
-  "homepage": "https://github.com/SLEEPwalker131313/iLoveOil#readme"
+  "homepage": "https://github.com/SLEEPwalker131313/iLoveOil#readme",
+  "dependencies": {
+    "xml-js": "^1.6.8"
+  }
 }
