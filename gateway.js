@@ -12,53 +12,96 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', function (socket) {
-  // console.log('socket', socket);
-  console.log(111);
 
-  socket.on ('route', function (coord) {
-    console.log(coord);
-    console.log(333);
+// app.get('/get-stations', function (req, res) {
+//   console.log(req.query.lat1)
+//   res.send('Hello world')
+//   res.end()
+// });
 
-    // a = getFillStations(data);
+var fs = require('fs');
 
-    var fs = require('fs');
+app.get('/get-stations', function (req, res) {
 
-    fs.readFile('./fillstations.json', 'utf-8', function(err, data) {
-      if (err) {
-        console.log('Error while reading file', err)
-        return
+  fs.readFile('./fillstations.json', 'utf-8', function(err, data) {
+    if (err) {
+      console.log('Error while reading file', err)
+      return
+    }
+    json = JSON.parse(data);
+    console.log('check');
+    console.log(json[1]['$'].lat);
+    let i = 0;
+    let returnFillStations = [];
+    // console.log(coord[0][0]);
+    json.forEach(function(element) {
+      if ( ( ( (element['$'].lat <= req.query.lat2)
+       && (element['$'].lat > req.query.lat1) ) ||
+       ( (element['$'].lat >= req.query.lat2)
+       && (element['$'].lat < req.query.lat1) ) ) &&
+       ( ( (element['$'].lon <= req.query.log2)
+       && (element['$'].lon > req.query.log1) ) ||
+       ( (element['$'].lon >= req.query.log2)
+       && (element['$'].lon < req.query.log1) ) ) )
+      {
+        returnFillStations[i++] = element;
       }
-      json = JSON.parse(data);
-      console.log('check');
-      console.log(json[1]['$'].lat);
-      let i = 0;
-      let returnFillStations = [];
-      console.log(coord[0][0]);
-      json.forEach(function(element) {
-        if ( ( ( (element['$'].lat <= coord[1][0])
-         && (element['$'].lat > coord[0][0]) ) ||
-         ( (element['$'].lat >= coord[1][0])
-         && (element['$'].lat < coord[0][0]) ) ) &&
-         ( ( (element['$'].lon <= coord[1][1])
-         && (element['$'].lon > coord[0][1]) ) ||
-         ( (element['$'].lon >= coord[1][1])
-         && (element['$'].lon < coord[0][1]) ) ) )
-        {
-          returnFillStations[i++] = element;
-        }
-
-        // features_obj[i++] = {
-        //      "type": "Feature", "id": i, "geometry": {"type": "Point", "coordinates": [element.geometry.coordinates[0], element.geometry.coordinates[1]]}, "properties": {"balloonContentHeader": "<font size=3><b><a target='_blank' href='https://yandex.ru'>Здесь может быть ваша ссылка</a></b></font>", "balloonContentBody": "<p>Ваше имя: <input name='login'></p><p><em>Телефон в формате 2xxx-xxx:</em>  <input></p><p><input type='submit' value='Отправить'></p>", "balloonContentFooter": "<font size=1>Информация предоставлена: </font> <strong>этим балуном</strong>", "clusterCaption": "<strong><s>Еще</s> одна</strong> метка", "hintContent": "<strong>Текст  <s>подсказки</s></strong>"}}
-      });
-
-      io.sockets.emit ('messageSuccess', returnFillStations);
-      // console.log(data[0]['$'].lat);
-    });
-
-
   });
+
+    res.send(returnFillStations);
+    res.end();
 });
+});
+
+
+
+// io.on('connection', function (socket) {
+//   // console.log('socket', socket);
+//   console.log(111);
+//
+//   socket.on ('route', function (coord) {
+//     console.log(coord);
+//     console.log(333);
+//
+//     // a = getFillStations(data);
+//
+//     var fs = require('fs');
+//
+//     fs.readFile('./fillstations.json', 'utf-8', function(err, data) {
+//       if (err) {
+//         console.log('Error while reading file', err)
+//         return
+//       }
+//       json = JSON.parse(data);
+//       console.log('check');
+//       console.log(json[1]['$'].lat);
+//       let i = 0;
+//       let returnFillStations = [];
+//       console.log(coord[0][0]);
+//       json.forEach(function(element) {
+//         if ( ( ( (element['$'].lat <= coord[1][0])
+//          && (element['$'].lat > coord[0][0]) ) ||
+//          ( (element['$'].lat >= coord[1][0])
+//          && (element['$'].lat < coord[0][0]) ) ) &&
+//          ( ( (element['$'].lon <= coord[1][1])
+//          && (element['$'].lon > coord[0][1]) ) ||
+//          ( (element['$'].lon >= coord[1][1])
+//          && (element['$'].lon < coord[0][1]) ) ) )
+//         {
+//           returnFillStations[i++] = element;
+//         }
+//
+//         // features_obj[i++] = {
+//         //      "type": "Feature", "id": i, "geometry": {"type": "Point", "coordinates": [element.geometry.coordinates[0], element.geometry.coordinates[1]]}, "properties": {"balloonContentHeader": "<font size=3><b><a target='_blank' href='https://yandex.ru'>Здесь может быть ваша ссылка</a></b></font>", "balloonContentBody": "<p>Ваше имя: <input name='login'></p><p><em>Телефон в формате 2xxx-xxx:</em>  <input></p><p><input type='submit' value='Отправить'></p>", "balloonContentFooter": "<font size=1>Информация предоставлена: </font> <strong>этим балуном</strong>", "clusterCaption": "<strong><s>Еще</s> одна</strong> метка", "hintContent": "<strong>Текст  <s>подсказки</s></strong>"}}
+//       });
+//
+//       io.sockets.emit ('messageSuccess', returnFillStations);
+//       // console.log(data[0]['$'].lat);
+//     });
+//
+//
+//   });
+// });
 
 //   function getFillStations(coords){
 //
